@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Slot Machine Hiburan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: #eee;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    .slot-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .slot {
+      background: #1a6fa0;
+      border-radius: 10px;
+      width: 80px;
+      height: 80px;
+      font-size: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 10px #ff0;
+    }
+
+    button {
+      background: #ff0;
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #222;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #e6d500;
+    }
+
+    .result {
+      margin-top: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      min-height: 2rem;
+    }
+
+    .price {
+      margin-top: 0.5rem;
+      font-size: 1.25rem;
+      color: #0f0;
+    }
+
+    /* Uang jatuh */
+    .money {
+      position: absolute;
+      font-size: 2rem;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Slot Machine Kebahagiaan</h1>
+  <div class="slot-container">
+    <div class="slot" id="slot1">🍒</div>
+    <div class="slot" id="slot2">🍋</div>
+    <div class="slot" id="slot3">🍊</div>
+  </div>
+  <button id="spinBtn">Putar</button>
+  <div class="result" id="result"></div>
+  <div class="price">Rp 35.000</div>
+
+  <script>
+    const symbols = ['👑', '💎', '💵', '💰'];
+    const moneySymbols = ['💰', '🪙', '💵'];
+
+    const slot1 = document.getElementById('slot1');
+    const slot2 = document.getElementById('slot2');
+    const slot3 = document.getElementById('slot3');
+    const spinBtn = document.getElementById('spinBtn');
+    const result = document.getElementById('result');
+
+    function getRandomSymbol() {
+      return symbols[Math.floor(Math.random() * symbols.length)];
+    }
+
+    function checkResult(s1, s2, s3) {
+      if (s1 === s2 && s2 === s3) {
+        startRain(); // Efek uang jatuh saat jackpot
+        return '🎉 Jackpot! Kamu menang! RP 500.000 🎉';
+      } else if (s1 === s2 || s2 === s3 || s1 === s3) {
+        return '😊 Hampir menang! Coba lagi ya!';
+      } else {
+        return '😞 Coba lagi!';
+      }
+    }
+
+    function startRain() {
+      const rainInterval = setInterval(createMoney, 200);
+      setTimeout(() => clearInterval(rainInterval), 3000);
+    }
+
+    function createMoney() {
+      const money = document.createElement('div');
+      money.classList.add('money');
+      money.style.left = Math.random() * 100 + 'vw';
+      money.style.animationDuration = (2 + Math.random() * 3) + 's';
+      money.textContent = moneySymbols[Math.floor(Math.random() * moneySymbols.length)];
+      document.body.appendChild(money);
+      setTimeout(() => money.remove(), 5000);
+    }
+
+    spinBtn.addEventListener('click', () => {
+      let count = 0;
+      spinBtn.disabled = true;
+      result.textContent = '';
+      const interval = setInterval(() => {
+        slot1.textContent = getRandomSymbol();
+        slot2.textContent = getRandomSymbol();
+        slot3.textContent = getRandomSymbol();
+        count++;
+        if (count > 15) {
+          clearInterval(interval);
+          spinBtn.disabled = false;
+          const s1 = slot1.textContent;
+          const s2 = slot2.textContent;
+          const s3 = slot3.textContent;
+          result.textContent = checkResult(s1, s2, s3);
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>
