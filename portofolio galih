@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #666;
+        }
+
+        /* Page 1 - Comment */
+        .comment-section {
+            background: white;
+            padding: 60px;
+            margin: 40px 0;
+        }
+
+        .comment-section h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .profile-img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* My Work Section */
+        .my-work {
+            margin: 80px 0;
+        }
+
+        .my-work h2 {
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .work-item {
+            aspect-ratio: 1;
+            background: #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .work-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Performance Section */
+        .performance-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin: 80px 0;
+        }
+
+        .performance-text h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .performance-text p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .learn-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .performance-img {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Awards Section */
+        .awards-section {
+            margin: 80px 0;
+        }
+
+        .awards-section h2 {
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .award-item {
+            display: flex;
+            gap: 20px;
+        }
+
+        .award-img {
+            width: 200px;
+            height: 150px;
+            background: #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .award-info h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .award-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Page 2 - Portfolio */
+        .portfolio-page {
+            background: white;
+            padding: 60px;
+            margin: 40px 0;
+        }
+
+        .portfolio-page h1 {
+            font-size: 48px;
+            margin-bottom: 60px;
+        }
+
+        .portfolio-intro {
+            max-width: 800px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 80px;
+        }
+
+        .example-section h2 {
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .portfolio-item {
+            aspect-ratio: 1;
+            background: #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Page 3 - My Service */
+        .service-page {
+            background: white;
+            padding: 60px;
+            margin: 40px 0;
+        }
+
+        .hero-section {
+            height: 500px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            transform: translateY(-50%);
+            color: white;
+        }
+
+        .hero-text h1 {
+            font-size: 56px;
+            margin-bottom: 10px;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .service-card-img {
+            width: 100%;
+            height: 250px;
+            background: #e0e0e0;
+            overflow: hidden;
+        }
+
+        .service-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .service-card-content {
+            padding: 30px;
+        }
+
+        .service-card-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .service-card-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Work With Us Section */
+        .work-with-us {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .work-with-us h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .contact-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 200px);
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .contact-btn {
+            padding: 15px 30px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .social-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .social-btn:hover {
+            background: #555;
+        }
+
+        /* Comment Section Bottom */
+        .comment-bottom {
+            background: #f9f9f9;
+            padding: 60px;
+            margin: 40px 0;
+        }
+
+        .comment-bottom h2 {
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .comment-items {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .comment-item {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .comment-item p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 50%;
+        }
+
+        .author-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            font-size: 14px;
+            color: #999;
+            margin: 0;
+        }
+
+        /* Animasi saat scroll */
+        .fade-in-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Page 1: Comment Section -->
+        <section class="comment-section">
+            <h1>Comment</h1>
+            <p class="subtitle">feedback from real clients</p>
+
+            <div class="about-section fade-in-on-scroll">
+                <div class="profile-img">
+                    <!-- Profile image would go here -->
+                </div>
+                <div class="about-text">
+                    <h2>About my</h2>
+                    <p>Hai, saya Galih Adam Arkani, seorang fotografer yang penuh semangat dan cinta mendalam untuk mengabadikan momen-momen nyata, apa adanya, dan abadi. Perjalanan saya di balik lensa dimulai 2 tahun yang lalu, dan sejak itu, fotografi telah menjadi lebih dari sekadar profesi—melainkan cara memandang dunia.</p>
+                </div>
+            </div>
+
+            <!-- My Work -->
+            <div class="my-work fade-in-on-scroll">
+                <h2>My work</h2>
+                <div class="work-grid">
+                    <div class="work-item"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1471&auto=format&fit=crop" alt="Work 1"></div>
+                    <div class="work-item"><img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1470&auto=format&fit=crop" alt="Work 2"></div>
+                    <div class="work-item"><img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1470&auto=format&fit=crop" alt="Work 3"></div>
+                </div>
+            </div>
+
+            <!-- Performance -->
+            <div class="performance-section fade-in-on-scroll">
+                <div class="performance-text">
+                    <h2>performance</h2>
+                    <p>Kami berkomitmen untuk memberikan hasil berkualitas tinggi dengan proses kerja yang efisien. Setiap proyek ditangani dengan cermat untuk memastikan kepuasan klien dan hasil akhir yang memukau.</p>
+                    <a href="#" class="learn-more">Learn more →</a>
+                </div>
+                <div class="performance-img"></div>
+            </div>
+
+            <!-- Awards -->
+            <div class="awards-section fade-in-on-scroll">
+                <h2>awards</h2>
+                <div class="awards-grid">
+                    <div class="award-item">
+                        <div class="award-img"></div>
+                        <div class="award-info">
+                            <h3>International Award</h3>
+                            <p>Recognized for excellence in design</p>
+                        </div>
+                    </div>
+                    <div class="award-item">
+                        <div class="award-img"></div>
+                        <div class="award-info">
+                            <h3>Creative Award</h3>
+                            <p>Outstanding achievement in creativity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 2: Portfolio -->
+        <section class="portfolio-page">
+            <h1>my project</h1>
+            
+            <div class="portfolio-intro fade-in-on-scroll">
+                <p>Selamat datang di galeri karya kami. Di sini, Anda akan menemukan kumpulan proyek pilihan yang menunjukkan dedikasi, kreativitas, dan kualitas yang kami tawarkan dalam setiap jepretan.</p>
+                <p>Setiap foto memiliki cerita tersendiri, ditangkap dengan presisi dan sentuhan artistik untuk menciptakan kenangan visual yang tak terlupakan. Jelajahi portofolio kami untuk melihat bagaimana kami mengubah momen menjadi karya seni.</p>
+            </div>
+
+            <div class="example-section fade-in-on-scroll">
+                <h2>example</h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1506241537222-15d0919450f1?q=80&w=1470&auto=format&fit=crop" alt="Example 1"></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1320&auto=format&fit=crop" alt="Example 2"></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=1374&auto=format&fit=crop" alt="Example 3"></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1496440737103-cd596325d314?q=80&w=1374&auto=format&fit=crop" alt="Example 4"></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1480&auto=format&fit=crop" alt="Example 5"></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1374&auto=format&fit=crop" alt="Example 6"></div>
+                </div>
+            </div>
+
+            <div class="portfolio-grid fade-in-on-scroll">
+                <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?q=80&w=1376&auto=format&fit=crop" alt="Portfolio 1"></div>
+                <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1374&auto=format&fit=crop" alt="Portfolio 2"></div>
+                <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1374&auto=format&fit=crop" alt="Portfolio 3"></div>
+                <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1505692952047-1a78307da8f2?q=80&w=1470&auto=format&fit=crop" alt="Portfolio 4"></div>
+                <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1470&auto=format&fit=crop" alt="Portfolio 5"></div>
+                <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?q=80&w=1364&auto=format&fit=crop" alt="Portfolio 6"></div>
+            </div>
+
+            <div class="portfolio-intro fade-in-on-scroll" style="margin-top: 60px;">
+                <p>Kami bangga dengan setiap proyek yang telah kami selesaikan dan berharap karya-karya ini dapat memberi Anda gambaran tentang gaya dan kualitas kami.</p>
+            </div>
+
+            <div class="logo" style="margin-top: 60px;">◐</div>
+        </section>
+
+        <!-- Page 3: My Service -->
+        <section class="service-page">
+            
+            <div class="hero-section fade-in-on-scroll">
+                <div class="hero-text">
+                    <h1>My service</h1>
+                    <p>Professional solutions for your business</p>
+                </div>
+            </div>
+
+            <div class="services-grid fade-in-on-scroll">
+                <div class="service-card">
+                    <div class="service-card-img"><img src="https://images.unsplash.com/photo-1519741497674-6114d186b151?q=80&w=1470&auto=format&fit=crop" alt="Wedding Photography"></div>
+                    <div class="service-card-content">
+                        <h3>Wedding</h3>
+                        <p>Abadikan momen sakral dan bahagia di hari pernikahan Anda dengan layanan fotografi profesional kami yang menangkap setiap detail dengan indah.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-card-img"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1470&auto=format&fit=crop" alt="Event Photography"></div>
+                    <div class="service-card-content">
+                        <h3>Event</h3>
+                        <p>Dokumentasikan acara perusahaan, seminar, atau perayaan penting lainnya dengan hasil foto yang berkualitas dan berkesan.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-card-img"><img src="https://images.unsplash.com/photo-1579548122204-c0516a3b37c6?q=80&w=1470&auto=format&fit=crop" alt="Promotion Photography"></div>
+                    <div class="service-card-content">
+                        <h3>Promotion</h3>
+                        <p>Tingkatkan citra merek Anda dengan foto produk dan promosi yang menarik secara visual untuk memikat audiens Anda.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-card-img"><img src="https://images.unsplash.com/photo-1599655862144-9f57187b8b4a?q=80&w=1374&auto=format&fit=crop" alt="Ancient Ceremony Photography"></div>
+                    <div class="service-card-content">
+                        <h3>Ancient ceremony</h3>
+                        <p>Lestarikan kekayaan budaya dan tradisi melalui dokumentasi upacara adat yang penuh makna dan nilai historis.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work With Us -->
+            <div class="work-with-us fade-in-on-scroll">
+                <h2>Work with us</h2>
+                <div class="contact-buttons">
+                    <button class="contact-btn">Name</button>
+                    <button class="contact-btn">Career</button>
+                    <button class="contact-btn">Email</button>
+                    <button class="contact-btn">Phone number</button>
+                </div>
+                <a href="#" class="social-btn">IG</a>
+            </div>
+
+        </section>
+
+        <!-- Comment Section Bottom -->
+        <section class="comment-bottom fade-in-on-scroll">
+            <h2>comment</h2>
+            <div class="comment-items">
+                <div class="comment-item">
+                    <p>"It's amazing how much better things got once I started doing this!"</p>
+                    <div class="comment-author">
+                        <div class="author-avatar"></div>
+                        <div class="author-info">
+                            <h4>Andrew Lee Rodriguez</h4>
+                            <p>Designer at Freelance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <p>"A simple way to manage and boost your productivity."</p>
+                    <div class="comment-author">
+                        <div class="author-avatar"></div>
+                        <div class="author-info">
+                            <h4>Christina Fernandez</h4>
+                            <p>Marketing Director</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <p>"Outstanding service and attention to detail!"</p>
+                    <div class="comment-author">
+                        <div class="author-avatar"></div>
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <p>CEO at StartupCo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Hentikan observasi setelah animasi berjalan
+                    }
+                });
+            }, {
+                threshold: 0.1 // Animasi berjalan saat 10% elemen terlihat
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.fade-in-on-scroll');
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
