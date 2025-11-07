@@ -1,0 +1,150 @@
+import * as THREE from 'three';
+
+// Fungsi ini akan dijalankan setelah halaman HTML dimuat
+const main = () => {
+  // Dapatkan elemen kontainer dari HTML
+  const mountElement = document.getElementById('solar-system-container');
+  if (!mountElement) {
+    console.error("Container element not found!");
+    return;
+  }
+
+  // Setup scene
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  mountElement.appendChild(renderer.domElement);
+
+  // Background starfield
+  const starGeometry = new THREE.BufferGeometry();
+  const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7 });
+  const starVertices = [];
+  for (let i = 0; i < 10000; i++) {
+    const x = (Math.random() - 0.5) * 2000;
+    const y = (Math.random() - 0.5) * 2000;
+    const z = (Math.random() - 0.5) * 2000;
+    starVertices.push(x, y, z);
+  }
+  starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+  const stars = new THREE.Points(starGeometry, starMaterial);
+  scene.add(stars);
+
+  // Sun
+  const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+  const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xfdb813 });
+  const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+  scene.add(sun);
+
+  // Add sun glow
+  const glowGeometry = new THREE.SphereGeometry(5.5, 32, 32);
+  const glowMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffa500,
+    transparent: true,
+    opacity: 0.3
+  });
+  const sunGlow = new THREE.Mesh(glowGeometry, glowMaterial);
+  scene.add(sunGlow);
+
+  // Light
+  const sunLight = new THREE.PointLight(0xffffff, 700, 500); // Intensitas cahaya ditingkatkan
+  scene.add(sunLight);
+
+  // Planets data: [size, color, distance, speed]
+  const planetsData = [
+    { name: 'Mercury', size: 0.4, color: 0x8c7853, distance: 10, speed: 0.04 },
+    { name: 'Venus', size: 0.9, color: 0xffc649, distance: 15, speed: 0.03 },
+    { name: 'Earth', size: 1, color: 0x4169e1, distance: 20, speed: 0.02 },
+    { name: 'Mars', size: 0.5, color: 0xcd5c5c, distance: 25, speed: 0.018 },
+    { name: 'Jupiter', size: 3, color: 0xdaa520, distance: 35, speed: 0.013 },
+    { name: 'Saturn', size: 2.5, color: 0xf4a460, distance: 45, speed: 0.01 },
+    { name: 'Uranus', size: 1.5, color: 0x4fd0e0, distance: 55, speed: 0.008 },
+    { name: 'Neptune', size: 1.4, color: 0x4169e1, distance: 65, speed: 0.006 }
+  ];
+
+  const planets = [];
+  const orbits = [];
+
+  planetsData.forEach(data => {
+    // Create planet
+    const geometry = new THREE.SphereGeometry(data.size, 32, 32);
+    // Tambahkan 'roughness' untuk membuat permukaan lebih memantulkan cahaya (shinier)
+    const material = new THREE.MeshStandardMaterial({
+      color: data.color,
+      roughness: 0.7
+    });
+    const planet = new THREE.Mesh(geometry, material);
+    planet.userData = { distance: data.distance, speed: data.speed, angle: Math.random() * Math.PI * 2 };
+    scene.add(planet);
+    planets.push(planet);
+
+    // Create orbit line
+    const orbitGeometry = new THREE.BufferGeometry();
+    const orbitPoints = [];
+    for (let i = 0; i <= 64; i++) {
+      const angle = (i / 64) * Math.PI * 2;
+      orbitPoints.push(
+        Math.cos(angle) * data.distance,
+        0,
+        Math.sin(angle) * data.distance
+      );
+    }
+    orbitGeometry.setAttribute('position', new THREE.Float32BufferAttribute(orbitPoints, 3));
+    const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x444444, transparent: true, opacity: 0.3 });
+    const orbit = new THREE.Line(orbitGeometry, orbitMaterial);
+    scene.add(orbit);
+    orbits.push(orbit);
+  });
+
+  // Add Saturn's ring
+  const saturnRingGeometry = new THREE.RingGeometry(3, 5, 32);
+  const saturnRingMaterial = new THREE.MeshBasicMaterial({
+    color: 0xd2b48c,
+    side: THREE.DoubleSide,
+    transparent: true,
+    opacity: 0.6
+  });
+  const saturnRing = new THREE.Mesh(saturnRingGeometry, saturnRingMaterial);
+  saturnRing.rotation.x = Math.PI / 2;
+  planets[5].add(saturnRing);
+
+  camera.position.set(0, 50, 80);
+  camera.lookAt(0, 0, 0);
+
+  // Animation
+  const animate = () => {
+    requestAnimationFrame(animate);
+
+    // Rotate sun
+    sun.rotation.y += 0.001;
+    sunGlow.rotation.y -= 0.001;
+
+    // Animate planets
+    planets.forEach(planet => {
+      planet.userData.angle += planet.userData.speed;
+      planet.position.x = Math.cos(planet.userData.angle) * planet.userData.distance;
+      planet.position.z = Math.sin(planet.userData.angle) * planet.userData.distance;
+      planet.rotation.y += 0.01;
+    });
+
+    // Rotate camera slowly
+    camera.position.x = Math.cos(Date.now() * 0.0001) * 80;
+    camera.position.z = Math.sin(Date.now() * 0.0001) * 80;
+    camera.lookAt(0, 0, 0);
+
+    renderer.render(scene, camera);
+  };
+
+  animate();
+
+  // Handle window resize
+  const handleResize = () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  };
+  window.addEventListener('resize', handleResize);
+};
+
+// Jalankan fungsi utama setelah DOM siap
+document.addEventListener('DOMContentLoaded', main);
